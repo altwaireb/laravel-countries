@@ -1,0 +1,127 @@
+<?php
+
+namespace Altwaireb\Countries\Traits;
+
+use Altwaireb\Countries\Exceptions\FileNotFoundException;
+
+trait HasException
+{
+    public function hasCountriesIso2Except(): bool
+    {
+        return ! empty($this->getCountriesIso2Except());
+    }
+
+    public function hasCountriesIso3Except(): bool
+    {
+        return ! empty($this->getCountriesIso3Except());
+    }
+
+    public function hasCountriesIsoCodeExcept(): bool
+    {
+        return $this->hasCountriesIso2Except() || $this->hasCountriesIso3Except();
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function getIdsCountriesExceptByIso2(): array
+    {
+        if (! $this->hasCountriesIso2Except()) {
+            return [];
+        }
+
+        return $this->getCountriesIdsBy(
+            column: 'iso2',
+            values: $this->getCountriesIso2Except()
+        );
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function getIdsCountriesExceptByIso3(): array
+    {
+        if (! $this->hasCountriesIso3Except()) {
+            return [];
+        }
+
+        return $this->getCountriesIdsBy(
+            column: 'iso3',
+            values: $this->getCountriesIso3Except()
+        );
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    private function getIdsCountriesExceptByIso2OrIso3(): array
+    {
+        $ids = [];
+
+        if ($this->hasCountriesIso2Except()) {
+            $ids = array_merge($ids, $this->getIdsCountriesExceptByIso2());
+        }
+
+        if ($this->hasCountriesIso3Except()) {
+            $ids = array_merge($ids, $this->getIdsCountriesExceptByIso3());
+        }
+        if (! empty($ids)) {
+            return array_unique($ids);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * @throws \Altwaireb\Countries\Exceptions\FileNotFoundException
+     */
+    public function getIdsCountriesExcept(): array
+    {
+        $idsIso2 = $this->getIdsCountriesExceptByIso2();
+        $idsIso3 = $this->getIdsCountriesExceptByIso3();
+        $ids = array_merge(
+            $idsIso2,
+            $idsIso3
+        );
+
+        if (empty($ids)) {
+            return [];
+        }
+
+        return array_unique($ids);
+    }
+
+    protected function getIso2ActivateOrExcept(): array
+    {
+        $iso2 = [];
+        if ($this->hasCountriesIso2Activate()) {
+            $iso2 = array_merge($iso2, $this->getCountriesIso2Activate());
+        }
+        if ($this->hasCountriesIso2Except()) {
+            $iso2 = array_merge($iso2, $this->getCountriesIso2Except());
+        }
+
+        if (! empty($iso2)) {
+            return array_unique($iso2);
+        }
+
+        return $iso2;
+    }
+
+    protected function getIso3ActivateOrExcept(): array
+    {
+        $iso3 = [];
+        if ($this->hasCountriesIso3Activate()) {
+            $iso3 = array_merge($iso3, $this->getCountriesIso3Activate());
+        }
+        if ($this->hasCountriesIso3Except()) {
+            $iso3 = array_merge($iso3, $this->getCountriesIso3Except());
+        }
+
+        if (! empty($iso3)) {
+            return array_unique($iso3);
+        }
+
+        return $iso3;
+    }
+}

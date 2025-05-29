@@ -1,0 +1,74 @@
+{
+    "name": "altwaireb/laravel-countries",
+    "description": "Laravel Countries , Countries States Cities DB Migration & Seeder",
+    "keywords": [
+        "Altwaireb",
+        "laravel",
+        "laravel-countries"
+    ],
+    "homepage": "https://github.com/altwaireb/laravel-countries",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Abdulmajeed Altwaireb",
+            "email": "altwaireb@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "spatie/laravel-package-tools": "^1.16.4",
+        "illuminate/contracts": "^10.0||^11.0||^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^6.0|^7.10|^8.9",
+        "larastan/larastan": "^2.9.2|^3.0",
+        "orchestra/testbench": "^8.22.2|^9.0|^10.0",
+        "pestphp/pest": "^2.34.6|^3.7",
+        "pestphp/pest-plugin-arch": "^2.3|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.3|^3.0",
+        "phpstan/extension-installer": "^1.3||^2.0",
+        "phpstan/phpstan-deprecation-rules": "1.1.4|^2.0",
+        "phpstan/phpstan-phpunit": "^1.3||^2.0",
+        "spatie/laravel-ray": "^1.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Altwaireb\\Countries\\": "src/",
+            "Altwaireb\\Countries\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Altwaireb\\Countries\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Altwaireb\\Countries\\CountriesServiceProvider"
+            ],
+            "aliases": {
+                "Countries": "Altwaireb\\Countries\\Facades\\Countries"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
