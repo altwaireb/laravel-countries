@@ -80,7 +80,7 @@ php artisan countries:seeder
 
 And you can refresh to re-seeding Data of Countries States Cities, by run this command.
 ```bash
-php artisan world:countries --refresh
+php artisan countries:seeder --refresh
 ```
 
 You can specify the activation of countries through the country code ISO2 or ISO3,
