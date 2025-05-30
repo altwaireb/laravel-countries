@@ -100,22 +100,21 @@ return [
                 'iso3' => ['HTI'],
             ],
         ],
-        'chunk_length' => 50,
     ],
 
     'states' => [
         'activation' => [
             'default' => true,
         ],
-        'chunk_length' => 200,
     ],
 
     'cities' => [
         'activation' => [
             'default' => true,
         ],
-        'chunk_length' => 200,
     ],
+    
+    'chunk_length' => 50,
 ];
 ```
 If you need to insert the countries is activation , this insert only two Countries `( Albania , Argentina )` with States and Cities.
@@ -134,7 +133,6 @@ return [
                 'iso3' => [],
             ],
         ],
-        'chunk_length' => 50,
     ],
 
     ...
