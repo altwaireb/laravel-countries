@@ -8,6 +8,6 @@ class IsoCodesIsEmptyException extends Exception
 {
     public static function isEmpty(): IsoCodesIsEmptyException
     {
-        return new self(message: "Iso Code Is Empty , please add ISO codes in config file 'countries/the-world.php");
+        return new self(message: "Iso Code Is Empty , please add ISO codes in config file 'config/countries.php");
     }
 }

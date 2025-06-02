@@ -2,6 +2,7 @@
 
 namespace Altwaireb\Countries\Traits;
 
+use Altwaireb\Countries\Exceptions\DuplicateIsoCodeException;
 use Altwaireb\Countries\Exceptions\FileNotFoundException;
 use Altwaireb\Countries\Exceptions\IsoCodesIsEmptyException;
 
@@ -54,21 +55,17 @@ trait HasActivation
 
     /**
      * @throws FileNotFoundException
+     * @throws DuplicateIsoCodeException
      */
     public function getIdsCountriesActive(): array
     {
-        $idsIso2 = $this->getIdsCountriesActiveByIso2();
-        $idsIso3 = $this->getIdsCountriesActiveByIso3();
-        $ids = array_merge(
-            $idsIso2,
-            $idsIso3
+        return $this->mergeIdsCountries(
+            firstIds: $this->getIdsCountriesActiveByIso2(),
+            firstColumn: 'iso2',
+            secondIds: $this->getIdsCountriesActiveByIso3(),
+            secondColumn: 'iso3',
+            status: 'active'
         );
-
-        if (empty($ids)) {
-            return [];
-        }
-
-        return array_unique($ids);
     }
 
     /**
