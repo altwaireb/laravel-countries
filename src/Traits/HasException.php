@@ -2,6 +2,7 @@
 
 namespace Altwaireb\Countries\Traits;
 
+use Altwaireb\Countries\Exceptions\DuplicateIsoCodeException;
 use Altwaireb\Countries\Exceptions\FileNotFoundException;
 
 trait HasException
@@ -53,42 +54,17 @@ trait HasException
 
     /**
      * @throws FileNotFoundException
-     */
-    private function getIdsCountriesExceptByIso2OrIso3(): array
-    {
-        $ids = [];
-
-        if ($this->hasCountriesIso2Except()) {
-            $ids = array_merge($ids, $this->getIdsCountriesExceptByIso2());
-        }
-
-        if ($this->hasCountriesIso3Except()) {
-            $ids = array_merge($ids, $this->getIdsCountriesExceptByIso3());
-        }
-        if (! empty($ids)) {
-            return array_unique($ids);
-        }
-
-        return $ids;
-    }
-
-    /**
-     * @throws \Altwaireb\Countries\Exceptions\FileNotFoundException
+     * @throws DuplicateIsoCodeException
      */
     public function getIdsCountriesExcept(): array
     {
-        $idsIso2 = $this->getIdsCountriesExceptByIso2();
-        $idsIso3 = $this->getIdsCountriesExceptByIso3();
-        $ids = array_merge(
-            $idsIso2,
-            $idsIso3
+        return $this->mergeIdsCountries(
+            firstIds: $this->getIdsCountriesExceptByIso2(),
+            firstColumn: 'iso2',
+            secondIds: $this->getIdsCountriesExceptByIso3(),
+            secondColumn: 'iso3',
+            status: 'except'
         );
-
-        if (empty($ids)) {
-            return [];
-        }
-
-        return array_unique($ids);
     }
 
     protected function getIso2ActivateOrExcept(): array

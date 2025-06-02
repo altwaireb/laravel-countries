@@ -2,6 +2,7 @@
 
 namespace Altwaireb\Countries\Traits;
 
+use Altwaireb\Countries\Exceptions\DuplicateIsoCodeException;
 use Altwaireb\Countries\Exceptions\FileNotFoundException;
 use Altwaireb\Countries\Exceptions\IsoCodesIsEmptyException;
 use Altwaireb\Countries\Services\InsertData;
@@ -11,6 +12,7 @@ trait HasInsertable
     /**
      * @throws FileNotFoundException
      * @throws IsoCodesIsEmptyException
+     * @throws DuplicateIsoCodeException
      */
     public function seedingData(): void
     {
@@ -22,7 +24,7 @@ trait HasInsertable
 
     /**
      * @throws FileNotFoundException
-     * @throws IsoCodesIsEmptyException
+     * @throws IsoCodesIsEmptyException|DuplicateIsoCodeException
      */
     protected function seedingCountries(): void
     {
@@ -43,6 +45,7 @@ trait HasInsertable
     /**
      * @throws FileNotFoundException
      * @throws IsoCodesIsEmptyException
+     * @throws DuplicateIsoCodeException
      */
     protected function seedingStates(): void
     {
@@ -53,7 +56,7 @@ trait HasInsertable
             exceptColumnIds: $this->getIdsCountriesExcept(),
             onlyActivation: $this->IsInsertActivationsOnly(),
             columnName: 'country_id',
-            defaultActivation: $this->isActivateCountries(),
+            defaultActivation: $this->isActivateStates(),
             chunkSize: $this->getChunkLength(),
             withEncode: false,
         );
@@ -62,6 +65,7 @@ trait HasInsertable
     /**
      * @throws FileNotFoundException
      * @throws IsoCodesIsEmptyException
+     * @throws DuplicateIsoCodeException
      */
     protected function seedingCities(): void
     {
@@ -72,7 +76,7 @@ trait HasInsertable
             exceptColumnIds: $this->getIdsCountriesExcept(),
             onlyActivation: $this->IsInsertActivationsOnly(),
             columnName: 'country_id',
-            defaultActivation: $this->isActivateCountries(),
+            defaultActivation: $this->isActivateCities(),
             chunkSize: $this->getChunkLength(),
             withEncode: false,
         );

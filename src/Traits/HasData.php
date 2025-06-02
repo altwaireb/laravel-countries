@@ -43,6 +43,26 @@ trait HasData
     /**
      * @throws FileNotFoundException
      */
+    protected function getIsoCodeCountryByColumn(int $countryId, string $column): string
+    {
+        $countries = collect($this->getCountries());
+
+        return $countries->where($column, $countryId)->first($column);
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    protected function getColumnCountriesByIds(array $countriesIds, string $column): array
+    {
+        $countries = collect($this->getCountries());
+
+        return $countries->whereIn('id', $countriesIds)->pluck($column)->toArray();
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
     private function getJsonFileAsArray(string $fileName)
     {
         $data = file_get_contents(__DIR__."/../../database/data/$fileName.json");
